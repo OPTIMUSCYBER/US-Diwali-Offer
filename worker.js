@@ -54,17 +54,18 @@ const CONFIG = {
 /**
  * Public reward presentation data. Stock is authoritative in reward_inventory.
  */
+const GIFT_DISPATCH_MESSAGE = 'Your Diwali gift will be dispatched to you shortly.';
 const REWARDS = {
-  SUPER_YOU_PROTEIN: { type: 'physical', title: 'Super You Protein – 1 kg', highlight: 'YOU WON!', description: 'Your Diwali surprise is a physical gift. Contact US Supplements to claim it.', valuePaise: 220000 },
-  PSYCHO_PUMP: { type: 'physical', title: 'One Science Psycho Pump – 15 servings', highlight: 'YOU WON!', description: 'Your Diwali surprise is a physical gift. Contact US Supplements to claim it.', valuePaise: 70000 },
-  PROTEIN_SAMPLE_BOX: { type: 'physical', title: 'One Science Protein Sample Box', highlight: 'YOU WON!', description: 'Your Diwali surprise is a physical gift. Contact US Supplements to claim it.', valuePaise: 70000 },
-  REGULAR_SHAKER: { type: 'physical', title: 'Shaker', highlight: 'YOU WON!', description: 'Your Diwali surprise is a physical gift. Contact US Supplements to claim it.', valuePaise: 7000 },
-  TSHIRT: { type: 'physical', title: 'T-shirt', highlight: 'YOU WON!', description: 'Your Diwali surprise is a physical gift. Contact US Supplements to claim it.', valuePaise: 10000 },
-  STEEL_SHAKER: { type: 'physical', title: 'Steel Shaker', highlight: 'YOU WON!', description: 'Your Diwali surprise is a physical gift. Contact US Supplements to claim it.', valuePaise: 35000 },
-  MUSCLE_SCIENCE_PREWORKOUT: { type: 'physical', title: 'Muscle Science Pre-workout – 2-serving pack', highlight: 'YOU WON!', description: 'Your Diwali surprise is a physical gift. Contact US Supplements to claim it.', valuePaise: 5000 },
-  BIG_FLEX_BCAA: { type: 'physical', title: 'Big Flex BCAA', highlight: 'YOU WON!', description: 'Your Diwali surprise is a physical gift. Contact US Supplements to claim it.' },
-  PINTOLA_OATS: { type: 'physical', title: 'Pintola Oats – 1 serving', highlight: 'YOU WON!', description: 'Your Diwali surprise is a physical gift. Contact US Supplements to claim it.' },
-  KEYCHAIN: { type: 'physical', title: 'Keychain', highlight: 'YOU WON!', description: 'Your Diwali surprise is a physical gift. Contact US Supplements to claim it.' },
+  SUPER_YOU_PROTEIN: { type: 'physical', title: 'Super You Protein – 1 kg', highlight: 'YOU WON!', description: GIFT_DISPATCH_MESSAGE, valuePaise: 220000 },
+  PSYCHO_PUMP: { type: 'physical', title: 'One Science Psycho Pump – 15 servings', highlight: 'YOU WON!', description: GIFT_DISPATCH_MESSAGE, valuePaise: 70000 },
+  PROTEIN_SAMPLE_BOX: { type: 'physical', title: 'One Science Protein Sample Box', highlight: 'YOU WON!', description: GIFT_DISPATCH_MESSAGE, valuePaise: 70000 },
+  REGULAR_SHAKER: { type: 'physical', title: 'Shaker', highlight: 'YOU WON!', description: GIFT_DISPATCH_MESSAGE, valuePaise: 7000 },
+  TSHIRT: { type: 'physical', title: 'T-shirt', highlight: 'YOU WON!', description: GIFT_DISPATCH_MESSAGE, valuePaise: 10000 },
+  STEEL_SHAKER: { type: 'physical', title: 'Steel Shaker', highlight: 'YOU WON!', description: GIFT_DISPATCH_MESSAGE, valuePaise: 35000 },
+  MUSCLE_SCIENCE_PREWORKOUT: { type: 'physical', title: 'Muscle Science Pre-workout – 2-serving pack', highlight: 'YOU WON!', description: GIFT_DISPATCH_MESSAGE, valuePaise: 5000 },
+  BIG_FLEX_BCAA: { type: 'physical', title: 'Big Flex BCAA', highlight: 'YOU WON!', description: GIFT_DISPATCH_MESSAGE },
+  PINTOLA_OATS: { type: 'physical', title: 'Pintola Oats – 1 serving', highlight: 'YOU WON!', description: GIFT_DISPATCH_MESSAGE },
+  KEYCHAIN: { type: 'physical', title: 'Keychain', highlight: 'YOU WON!', description: GIFT_DISPATCH_MESSAGE },
   BETTER_LUCK: { type: 'luck', title: 'BETTER LUCK NEXT TIME!', description: 'Thank you for celebrating Diwali with US Supplements. Stay tuned for more exciting surprises.' }
 };
 
@@ -466,7 +467,7 @@ async function rewardResponse(env, rewardId, alreadyOpened) {
     highlight: r.highlight || null,
     description: r.description || null,
     value: stock && stock.unit_value_paise != null ? Number(stock.unit_value_paise) / 100 : null,
-    claimInstructions: r.type === 'physical' ? 'Contact US Supplements support with your Order ID to arrange your physical gift.' : null
+    claimInstructions: null
   };
   return success({ alreadyOpened, reward, redirectAfterSeconds: CONFIG.REDIRECT_AFTER_SECONDS });
 }

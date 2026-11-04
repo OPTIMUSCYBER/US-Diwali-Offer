@@ -667,6 +667,15 @@ test('open allocates a server-selected physical reward and records exactly one s
 
 const REWARD_IDS = ['SUPER_YOU_PROTEIN','PSYCHO_PUMP','PROTEIN_SAMPLE_BOX','REGULAR_SHAKER','TSHIRT','STEEL_SHAKER','MUSCLE_SCIENCE_PREWORKOUT','BIG_FLEX_BCAA','PINTOLA_OATS','KEYCHAIN','BETTER_LUCK'];
 
+test('physical reward card says the gift will be dispatched, with no contact-support instruction', async () => {
+  const { o } = await fullFlow(freshEnv(), 1001, null, 'nonce-dispatch-1001-0001');
+  assert.equal(o.status, 200);
+  assert.equal(o.json.reward.type, 'physical');
+  assert.equal(o.json.reward.description, 'Your Diwali gift will be dispatched to you shortly.');
+  assert.equal(o.json.reward.claimInstructions, null);
+  assert.doesNotMatch(JSON.stringify(o.json), /contact/i);
+});
+
 test('allocation retry returns the same reward and never consumes additional stock', async () => {
   const env = freshEnv(); const { v, o } = await fullFlow(env, 1001);
   const before = env.DB.db.prepare('SELECT SUM(remaining_quantity) n FROM reward_inventory WHERE is_fallback=0').get().n;
