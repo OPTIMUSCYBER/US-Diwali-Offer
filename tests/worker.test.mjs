@@ -1066,6 +1066,10 @@ test('hygiene: non-JSON bodies, wrong methods, unknown routes, oversized bodies,
   assert.equal(form.status, 415);
   assert.equal((await call(env, '/api/envelope/verify', null, { method: 'GET', origin: ENV_ORIGIN })).status, 405);
   assert.equal((await call(env, '/api/envelope/nope', {})).status, 404);
+  const root = await call(env, '/', null, { method: 'GET' });
+  assert.equal(root.status, 200);
+  assert.deepEqual(root.json, { success: true, message: 'US Supplements Diwali envelope service is running.', state: 'open' });
+  assert.equal((await call(env, '/', {})).status, 404, 'only GET on / is a health check');
   const big = await call(env, '/api/envelope/verify', { handoffToken: 'A'.repeat(5000), clientNonce: 'n'.repeat(20) }, { origin: ENV_ORIGIN });
   assert.equal(big.json.error.code, 'INVALID_AUTH');
   const ok = await authorize(env);

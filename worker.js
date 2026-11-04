@@ -81,7 +81,11 @@ const ROUTES = {
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
-    const route = Object.prototype.hasOwnProperty.call(ROUTES, url.pathname) ? ROUTES[url.pathname] : null;
+    // Opening the bare Worker URL in a browser shows a health message, not an error.
+    if (url.pathname === '/' && request.method === 'GET') {
+      return reply(success({ message: 'US Supplements Diwali envelope service is running.', state: campaignState() }), {});
+    }
+    const route =Object.prototype.hasOwnProperty.call(ROUTES, url.pathname) ? ROUTES[url.pathname] : null;
     if (!route) return reply(failure('NOT_FOUND', 404), {});
 
     const origin = request.headers.get('Origin');
