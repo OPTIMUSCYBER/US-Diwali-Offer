@@ -1,0 +1,57 @@
+name = "uss-diwali-auth-2026"
+main = "worker.js"
+compatibility_date = "2026-10-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "uss-diwali-redemptions"
+database_id = "7e58a497-e28c-4c05-9d28-05aeaf1c3b58"
+# Production has an existing redemptions table, not the historical generic schema.
+# Only the guarded bootstrap files in this directory are discoverable by Wrangler.
+migrations_dir = "migrations/production"
+
+[vars]
+WC_STORE_URL = "https://ussupplements.in"
+
+# CORS — EXACT origins only (scheme + host, no trailing slash, NO wildcards).
+# Enforced inside worker.js per route, not just by the browser.
+#   AUTH_ORIGINS     : where the WordPress authentication page lives. May call /authorize.
+#   ENVELOPE_ORIGINS : where the separately hosted envelope page lives. May call /verify, /open, /status.
+AUTH_ORIGINS = "https://ussupplements.in,https://www.ussupplements.in"
+ENVELOPE_ORIGINS = "https://us-supplements-diwali.pages.dev"
+
+GOOGLE_SHEETS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwReatR4zL7d9dL8kuA7PW3fDpq-qy4uWPHXl7wA9YMBWKUUt08CiTi7fjZfdGCwwio/exec"
+
+# Optional: drop stale, never-redeemed authorizations daily.
+[triggers]
+crons = ["*/5 * * * *"]
+
+# Optional approximate per-location abuse limits. Use Wrangler >= 4.36.0 and assign
+# unique positive integer namespace IDs from this Cloudflare account before enabling.
+# These limits are not strict/global; the Worker also enforces its D1 per-order auth cap.
+# [[ratelimits]]
+# name = "AUTH_LIMITER"
+# namespace_id = "<unique-id>"
+# [ratelimits.simple]
+# limit = 10
+# period = 60
+# [[ratelimits]]
+# name = "VERIFY_LIMITER"
+# namespace_id = "<unique-id>"
+# [ratelimits.simple]
+# limit = 20
+# period = 60
+# [[ratelimits]]
+# name = "OPEN_LIMITER"
+# namespace_id = "<unique-id>"
+# [ratelimits.simple]
+# limit = 20
+# period = 60
+
+# Secrets — set with `npx wrangler secret put <n>`, never commit them:
+#   SESSION_SECRET      (any long random string; signs the short-lived opening-session token)
+#   WC_CONSUMER_KEY     (WooCommerce → Settings → Advanced → REST API, Read permission)
+#   WC_CONSUMER_SECRET
+#   WORKER_SYNC_SECRET   (must exactly match Apps Script Script Properties)
+# Sheets endpoint can be set as a non-secret variable. Keep the secret out of vars/source.
+# CODE_SECRET is no longer used: handoff tokens are random, not derived from the order ID.

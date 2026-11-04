@@ -1,0 +1,44 @@
+# Separate staging-only config. Always invoke Wrangler with --config wrangler.staging.toml.
+# Never copy a production database ID or secrets into this file.
+name = "uss-diwali-auth-2026-staging"
+main = "worker.js"
+compatibility_date = "2026-10-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "uss-diwali-auth-2026-staging"
+database_id = "REPLACE_WITH_STAGING_D1_DATABASE_ID"
+
+[vars]
+# Fail-closed placeholders until an isolated staging WooCommerce source and staging Apps Script exist.
+WC_STORE_URL = "REPLACE_WITH_STAGING_WOOCOMMERCE_URL"
+AUTH_ORIGINS = "REPLACE_WITH_STAGING_WORDPRESS_ORIGIN"
+# Required only if a separate staging Pages preview is used. Do not allow the production Pages origin.
+ENVELOPE_ORIGINS = "REQUIRED_STAGING_ENVELOPE_ORIGIN"
+GOOGLE_SHEETS_WEB_APP_URL = "REPLACE_WITH_STAGING_APPS_SCRIPT_DEPLOYMENT_URL"
+
+[triggers]
+crons = ["*/5 * * * *"]
+
+# Optional approximate per-location abuse limits. Assign IDs from the Cloudflare account before enabling.
+# [[ratelimits]]
+# name = "AUTH_LIMITER"
+# namespace_id = "REPLACE_WITH_STAGING_AUTH_LIMITER_NAMESPACE_ID"
+# [ratelimits.simple]
+# limit = 10
+# period = 60
+# [[ratelimits]]
+# name = "VERIFY_LIMITER"
+# namespace_id = "REPLACE_WITH_STAGING_VERIFY_LIMITER_NAMESPACE_ID"
+# [ratelimits.simple]
+# limit = 20
+# period = 60
+# [[ratelimits]]
+# name = "OPEN_LIMITER"
+# namespace_id = "REPLACE_WITH_STAGING_OPEN_LIMITER_NAMESPACE_ID"
+# [ratelimits.simple]
+# limit = 20
+# period = 60
+
+# Set interactively with `npx wrangler secret put NAME --config wrangler.staging.toml`:
+# SESSION_SECRET, WC_CONSUMER_KEY, WC_CONSUMER_SECRET, WORKER_SYNC_SECRET
