@@ -9,7 +9,8 @@
  *
  * INSTALL
  *   1. Add this file with the "Code Snippets" plugin (Run everywhere) or in a child theme's functions.php.
- *   2. Add to wp-config.php (above "That's all, stop editing!"):
+ *   2. Optional: the production URLs below are built in. To override them, add to wp-config.php
+ *      (above "That's all, stop editing!"):
  *        define( 'USD_DIWALI_API_BASE',     'https://uss-diwali-auth-2026.822005harsh.workers.dev' );
  *        define( 'USD_DIWALI_ENVELOPE_URL', 'https://us-supplements-diwali.pages.dev/' );
  *   3. Create a WordPress page (e.g. /diwali/) containing the shortcode:   [usd_diwali_auth]
@@ -28,8 +29,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 function usd_diwali_auth_config() {
-	$api = defined( 'USD_DIWALI_API_BASE' ) ? rtrim( (string) USD_DIWALI_API_BASE, '/' ) : '';
-	$env = defined( 'USD_DIWALI_ENVELOPE_URL' ) ? (string) USD_DIWALI_ENVELOPE_URL : '';
+	// Production defaults; wp-config.php constants override them (e.g. for staging).
+	$api = defined( 'USD_DIWALI_API_BASE' ) ? rtrim( (string) USD_DIWALI_API_BASE, '/' ) : 'https://uss-diwali-auth-2026.822005harsh.workers.dev';
+	$env = defined( 'USD_DIWALI_ENVELOPE_URL' ) ? (string) USD_DIWALI_ENVELOPE_URL : 'https://us-supplements-diwali.pages.dev/';
 	$ok  = 0 === strpos( $api, 'https://' ) && 0 === strpos( $env, 'https://' );
 	return array( 'api' => $api, 'envelope' => $env, 'ok' => $ok );
 }

@@ -1,0 +1,725 @@
+<div id="diwali-entry">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,500;1,600&family=DM+Sans:wght@400;500;700&display=swap');
+
+    #diwali-entry {
+      --marigold: #f4b53f;
+      --gold: #dcae5a;
+      --gold-light: #ffe2a3;
+      --cream: #fff3d9;
+      --vermilion: #b3202c;
+      --wine: #2a0711;
+      --aubergine: #170309;
+      font-family: 'DM Sans', Arial, sans-serif;
+      color: var(--cream);
+      width: 100%;
+      min-height: 780px;
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse at 50% 0%, #6a1a26 0%, rgba(106, 26, 38, 0) 60%),
+        radial-gradient(ellipse at 50% 100%, #3d0c18 0%, rgba(61, 12, 24, 0) 55%),
+        var(--aubergine);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 55px 18px;
+      box-sizing: border-box;
+      isolation: isolate;
+    }
+
+    #diwali-entry *,
+    #diwali-entry *::before,
+    #diwali-entry *::after { box-sizing: border-box; }
+
+    /* Soft warm light behind the card */
+    #diwali-entry .diwali-glow {
+      position: absolute;
+      width: 520px;
+      height: 520px;
+      border-radius: 50%;
+      background: rgba(244, 181, 63, .14);
+      filter: blur(100px);
+      top: 8%;
+      left: 50%;
+      transform: translateX(-50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Floating embers */
+    #diwali-entry .diwali-particles {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    #diwali-entry .diwali-particle {
+      position: absolute;
+      bottom: -20px;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--gold-light);
+      box-shadow: 0 0 12px 3px rgba(255, 190, 80, .55);
+      animation: diwaliFloat linear infinite;
+      opacity: 0;
+    }
+
+    @keyframes diwaliFloat {
+      0% { transform: translateY(0) scale(.5); opacity: 0; }
+      15% { opacity: .9; }
+      85% { opacity: .7; }
+      100% { transform: translateY(-900px) scale(1.2); opacity: 0; }
+    }
+
+    /* ---------- Card ---------- */
+    #diwali-entry .diwali-frame {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 560px;
+      padding: 2px;
+      border-radius: 14px;
+      background: linear-gradient(160deg, #f6d68c, #8d5b22 35%, #ffe4a0 60%, #9b6429);
+      box-shadow:
+        0 0 80px rgba(244, 181, 63, .16),
+        0 30px 80px rgba(0, 0, 0, .55);
+    }
+
+    #diwali-entry .diwali-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 12px;
+      padding: 52px 40px 34px;
+      text-align: center;
+      background:
+        radial-gradient(circle at 50% 0%, rgba(179, 32, 44, .38), transparent 58%),
+        linear-gradient(170deg, #45101c, #230610 80%);
+    }
+
+    /* Inner hairline frame */
+    #diwali-entry .diwali-card::before {
+      content: "";
+      position: absolute;
+      inset: 9px;
+      border: 1px solid rgba(255, 226, 163, .22);
+      border-radius: 7px;
+      pointer-events: none;
+    }
+
+    /* Marigold toran: a string of lamps along the top edge */
+    #diwali-entry .diwali-card::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 14px;
+      background:
+        radial-gradient(circle at 50% 0, var(--marigold) 0 3px, transparent 3.5px) 0 0 / 22px 14px repeat-x;
+      opacity: .75;
+      pointer-events: none;
+    }
+
+    /* ---------- Envelope ---------- */
+    #diwali-entry .diwali-envelope {
+      display: block;
+      width: 230px;
+      max-width: 70%;
+      height: auto;
+      margin: 0 auto 6px;
+      overflow: visible;
+      filter: drop-shadow(0 14px 22px rgba(0, 0, 0, .45));
+    }
+
+    #diwali-entry .env-flap {
+      transform-box: fill-box;
+      transform-origin: 50% 0;
+      transition: transform .9s cubic-bezier(.55, 0, .2, 1);
+    }
+
+    #diwali-entry .env-letter {
+      opacity: 0;
+      transform: translateY(0);
+      transition: transform .9s cubic-bezier(.2, .7, .2, 1) .55s, opacity .3s ease .5s;
+    }
+
+    #diwali-entry .env-seal {
+      transform-box: fill-box;
+      transform-origin: 50% 50%;
+      transition: opacity .35s ease, transform .35s ease;
+    }
+
+    #diwali-entry .env-flame {
+      transform-box: fill-box;
+      transform-origin: 50% 100%;
+      animation: diwaliFlicker 2.4s ease-in-out infinite;
+    }
+
+    @keyframes diwaliFlicker {
+      0%, 100% { transform: scale(1, 1) rotate(0deg); }
+      30% { transform: scale(.92, 1.08) rotate(-3deg); }
+      60% { transform: scale(1.05, .95) rotate(2deg); }
+    }
+
+    /* Opened state (added by JS on success) */
+    #diwali-entry.is-open .env-flap { transform: scaleY(-1); }
+    #diwali-entry.is-open .env-letter { opacity: 1; transform: translateY(-62px); }
+    #diwali-entry.is-open .env-seal { opacity: 0; transform: scale(.4); }
+
+    /* ---------- Typography (hardened against theme overrides) ---------- */
+    #diwali-entry h1 {
+      font-family: 'Cormorant Garamond', Georgia, serif !important;
+      color: var(--gold-light) !important;
+      font-size: clamp(34px, 7vw, 48px) !important;
+      line-height: 1.05 !important;
+      font-weight: 600 !important;
+      letter-spacing: -.01em !important;
+      text-transform: none !important;
+      text-align: center !important;
+      margin: 14px auto 14px !important;
+      padding: 0 !important;
+      text-shadow: 0 3px 22px rgba(244, 181, 63, .22);
+    }
+
+    #diwali-entry h1 em {
+      display: block;
+      font-style: italic !important;
+      font-weight: 500 !important;
+      color: var(--marigold) !important;
+    }
+
+    #diwali-entry .diwali-brand {
+      font-family: 'Cormorant Garamond', Georgia, serif !important;
+      font-style: italic;
+      font-size: 17px !important;
+      letter-spacing: .02em !important;
+      text-transform: none !important;
+      color: var(--gold) !important;
+      margin: 0 !important;
+    }
+
+    #diwali-entry .diwali-subtitle {
+      color: #ecd2b0 !important;
+      font-family: 'DM Sans', Arial, sans-serif !important;
+      font-size: 14px !important;
+      line-height: 1.7 !important;
+      max-width: 380px;
+      margin: 0 auto 6px !important;
+      padding: 0 !important;
+    }
+
+    #diwali-entry .diwali-divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      justify-content: center;
+      margin: 22px auto 24px;
+      color: var(--gold);
+      font-size: 14px;
+      line-height: 1;
+    }
+
+    #diwali-entry .diwali-divider::before,
+    #diwali-entry .diwali-divider::after {
+      content: "";
+      height: 1px;
+      width: 80px;
+      background: linear-gradient(90deg, transparent, #c99a50);
+    }
+
+    #diwali-entry .diwali-divider::after { transform: rotate(180deg); }
+
+    /* ---------- Form ---------- */
+    #diwali-entry form { margin: 0 !important; padding: 0 !important; }
+
+    #diwali-entry .diwali-field {
+      text-align: left;
+      margin: 0 0 18px !important;
+    }
+
+    #diwali-entry .diwali-field label {
+      display: block !important;
+      color: #f5deb3 !important;
+      font-family: 'DM Sans', Arial, sans-serif !important;
+      font-size: 13px !important;
+      font-weight: 500 !important;
+      letter-spacing: .02em !important;
+      text-transform: none !important;
+      margin: 0 0 8px !important;
+      padding: 0 !important;
+    }
+
+    #diwali-entry .diwali-field input {
+      display: block !important;
+      width: 100% !important;
+      height: 54px !important;
+      margin: 0 !important;
+      border-radius: 8px !important;
+      border: 1px solid rgba(230, 190, 115, .4) !important;
+      background: rgba(12, 2, 6, .6) !important;
+      color: #fff2d6 !important;
+      padding: 0 16px !important;
+      font-family: 'DM Sans', Arial, sans-serif !important;
+      font-size: 16px !important;
+      letter-spacing: .03em !important;
+      outline: none !important;
+      box-shadow: inset 0 2px 10px rgba(0, 0, 0, .3) !important;
+      transition: border-color .25s, box-shadow .25s;
+    }
+
+    #diwali-entry .diwali-field input::placeholder { color: #a98b7e !important; letter-spacing: 0; }
+
+    #diwali-entry .diwali-field input:focus {
+      border-color: var(--gold-light) !important;
+      box-shadow: 0 0 0 3px rgba(244, 181, 63, .22) !important;
+    }
+
+    #diwali-entry .diwali-submit {
+      display: block !important;
+      width: 100% !important;
+      min-height: 56px !important;
+      margin: 8px 0 0 !important;
+      border: 1px solid #ffe1a0 !important;
+      border-radius: 8px !important;
+      background: linear-gradient(135deg, #f8df9e, #c18a37 55%, #f3d58f) !important;
+      color: #3c1010 !important;
+      font-family: 'DM Sans', Arial, sans-serif !important;
+      font-size: 16px !important;
+      font-weight: 700 !important;
+      letter-spacing: .02em !important;
+      text-transform: none !important;
+      cursor: pointer;
+      box-shadow: 0 8px 26px rgba(224, 165, 71, .22) !important;
+      transition: transform .2s, box-shadow .2s;
+    }
+
+    #diwali-entry .diwali-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(224, 165, 71, .38) !important;
+    }
+
+    #diwali-entry .diwali-submit:focus-visible,
+    #diwali-entry .diwali-proceed:focus-visible {
+      outline: 3px solid #fff !important;
+      outline-offset: 3px;
+    }
+
+    #diwali-entry .diwali-submit:disabled {
+      opacity: .7;
+      cursor: wait;
+      transform: none;
+    }
+
+    #diwali-entry .diwali-note {
+      font-family: 'DM Sans', Arial, sans-serif !important;
+      font-size: 12px !important;
+      line-height: 1.7 !important;
+      color: #c8a99a !important;
+      margin: 20px auto 0 !important;
+      padding: 0 !important;
+      max-width: 400px;
+    }
+
+    #diwali-entry .diwali-small {
+      color: #c8a99a;
+      font-family: 'DM Sans', Arial, sans-serif;
+      font-size: 12px;
+      margin-top: 14px;
+    }
+
+    #diwali-entry .diwali-tagline {
+      font-family: 'Cormorant Garamond', Georgia, serif !important;
+      font-style: italic;
+      font-size: 16px !important;
+      color: var(--gold) !important;
+      margin: 22px 0 0 !important;
+      padding: 0 !important;
+    }
+
+    /* ---------- Status boxes ---------- */
+    #diwali-entry .diwali-status {
+      display: none;
+      border-radius: 10px;
+      padding: 22px 16px;
+      margin-top: 22px;
+      font-family: 'DM Sans', Arial, sans-serif;
+      animation: diwaliAppear .45s ease both;
+    }
+
+    #diwali-entry .diwali-status.success {
+      display: block;
+      background: rgba(244, 181, 63, .08);
+      border: 1px solid rgba(244, 181, 63, .45);
+    }
+
+    #diwali-entry .diwali-status.error {
+      display: block;
+      background: rgba(120, 24, 24, .3);
+      border: 1px solid rgba(255, 139, 119, .5);
+    }
+
+    #diwali-entry .diwali-status .status-icon {
+      font-size: 26px;
+      line-height: 1;
+      margin-bottom: 10px;
+      color: var(--gold-light);
+    }
+
+    #diwali-entry .diwali-status h2 {
+      color: #ffe6ae !important;
+      font-family: 'Cormorant Garamond', Georgia, serif !important;
+      font-size: 30px !important;
+      font-weight: 600 !important;
+      letter-spacing: 0 !important;
+      text-transform: none !important;
+      line-height: 1.1 !important;
+      margin: 0 0 8px !important;
+      padding: 0 !important;
+    }
+
+    #diwali-entry .diwali-status p {
+      color: #f0d9c4 !important;
+      font-family: 'DM Sans', Arial, sans-serif !important;
+      font-size: 14px !important;
+      line-height: 1.7 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
+    #diwali-entry .diwali-code {
+      color: #ffe5a0;
+      font-family: 'DM Sans', Arial, sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: 5px;
+      margin: 16px 0;
+      padding: 13px 12px 13px 17px;
+      border: 1px dashed rgba(255, 222, 151, .75);
+      border-radius: 8px;
+      background: rgba(0, 0, 0, .25);
+    }
+
+    #diwali-entry .diwali-proceed {
+      display: block;
+      width: 100%;
+      padding: 16px 18px;
+      margin-top: 16px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #f8df9e, #c18a37);
+      color: #3c1010 !important;
+      text-decoration: none !important;
+      font-family: 'DM Sans', Arial, sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: .02em;
+    }
+
+    @keyframes diwaliAppear {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    #diwali-entry .diwali-loading {
+      display: inline-block;
+      width: 15px;
+      height: 15px;
+      border: 2px solid rgba(60, 16, 16, .3);
+      border-top-color: #3c1010;
+      border-radius: 50%;
+      vertical-align: middle;
+      margin-right: 9px;
+      animation: diwaliSpin .7s linear infinite;
+    }
+
+    @keyframes diwaliSpin { to { transform: rotate(360deg); } }
+
+    @media (max-width: 520px) {
+      #diwali-entry {
+        min-height: 720px;
+        padding: 25px 12px;
+      }
+
+      #diwali-entry .diwali-card { padding: 46px 20px 28px; }
+      #diwali-entry .diwali-subtitle { font-size: 13px !important; }
+      #diwali-entry .diwali-field input { height: 51px !important; }
+      #diwali-entry .diwali-code { font-size: 20px; letter-spacing: 3px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #diwali-entry .diwali-particle,
+      #diwali-entry .env-flame { animation: none; }
+      #diwali-entry .env-flap,
+      #diwali-entry .env-letter,
+      #diwali-entry .env-seal { transition: none; }
+    }
+  </style>
+
+  <div class="diwali-glow"></div>
+  <div class="diwali-particles" id="diwaliParticles"></div>
+
+  <div class="diwali-frame">
+    <div class="diwali-card">
+
+      <!-- Sealed envelope: opens when the order is verified -->
+      <svg class="diwali-envelope" viewBox="0 -45 240 215" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A sealed Diwali envelope">
+        <defs>
+          <linearGradient id="diwaliEnvBack" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#5a0f1a"/>
+            <stop offset="1" stop-color="#3b0a12"/>
+          </linearGradient>
+          <linearGradient id="diwaliEnvFlap" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#c2252f"/>
+            <stop offset="1" stop-color="#8f1722"/>
+          </linearGradient>
+          <linearGradient id="diwaliEnvPocket" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#a81c28"/>
+            <stop offset="1" stop-color="#7d1220"/>
+          </linearGradient>
+          <linearGradient id="diwaliEnvGold" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#ffe4a0"/>
+            <stop offset="1" stop-color="#c18a37"/>
+          </linearGradient>
+          <radialGradient id="diwaliEnvSeal" cx=".35" cy=".3" r=".9">
+            <stop offset="0" stop-color="#f2c15e"/>
+            <stop offset="1" stop-color="#a36a1f"/>
+          </radialGradient>
+        </defs>
+
+        <!-- Back of envelope -->
+        <rect x="20" y="40" width="200" height="120" rx="6" fill="url(#diwaliEnvBack)"/>
+
+        <!-- Flap (flips up when opened) -->
+        <g class="env-flap">
+          <path d="M20 42 L220 42 L126 112 Q120 116 114 112 Z" fill="url(#diwaliEnvFlap)" stroke="url(#diwaliEnvGold)" stroke-width="1.2" stroke-linejoin="round"/>
+        </g>
+
+        <!-- Letter that rises out -->
+        <g class="env-letter">
+          <rect x="38" y="52" width="164" height="96" rx="4" fill="#fff1d2"/>
+          <rect x="38" y="52" width="164" height="96" rx="4" fill="none" stroke="#dcae5a" stroke-width="1"/>
+          <path d="M120 62 L123 70 L131 71 L125 76 L127 84 L120 80 L113 84 L115 76 L109 71 L117 70 Z" fill="#c18a37"/>
+          <rect x="70" y="92" width="100" height="3" rx="1.5" fill="#d9bf8e"/>
+          <rect x="82" y="102" width="76" height="3" rx="1.5" fill="#d9bf8e"/>
+        </g>
+
+        <!-- Front pocket -->
+        <path d="M20 44 L114 108 Q120 112 120 112 L20 160 Z" fill="url(#diwaliEnvPocket)"/>
+        <path d="M220 44 L126 108 Q120 112 120 112 L220 160 Z" fill="url(#diwaliEnvPocket)"/>
+        <path d="M20 160 L120 108 L220 160 Z" fill="#8f1722" stroke="url(#diwaliEnvGold)" stroke-width="1" stroke-linejoin="round"/>
+        <rect x="20" y="40" width="200" height="120" rx="6" fill="none" stroke="url(#diwaliEnvGold)" stroke-width="1.4"/>
+
+        <!-- Wax seal with a diya -->
+        <g class="env-seal">
+          <circle cx="120" cy="108" r="19" fill="url(#diwaliEnvSeal)" stroke="#ffe4a0" stroke-width="1"/>
+          <circle cx="120" cy="108" r="14.5" fill="none" stroke="#6b3d0e" stroke-opacity=".5" stroke-width=".8"/>
+          <path class="env-flame" d="M120 93 C125 99 125 104 120 107 C115 104 115 99 120 93 Z" fill="#fff6d0"/>
+          <path d="M108 109 Q120 123 132 109 Z" fill="#6b3d0e"/>
+          <path d="M108 109 L132 109" stroke="#3d2005" stroke-width="1.2" stroke-linecap="round"/>
+        </g>
+      </svg>
+
+      <p class="diwali-brand">US Supplements presents</p>
+
+      <h1>Unlock the door.<em>Discover your fate.</em></h1>
+
+      <p class="diwali-subtitle">
+        This Diwali, a little mystery awaits you.
+        Enter your order details to verify your purchase and open the envelope.
+      </p>
+
+      <div class="diwali-divider">✦</div>
+
+      <form id="diwaliVerifyForm">
+        <div class="diwali-field">
+          <label for="diwaliOrder">Order ID</label>
+          <input
+            id="diwaliOrder"
+            name="orderId"
+            type="text"
+            inputmode="numeric"
+            autocomplete="off"
+            maxlength="7"
+            placeholder="Example: #222222"
+            required
+          >
+        </div>
+
+        <div class="diwali-field">
+          <label for="diwaliPhone">Registered mobile number</label>
+          <input
+            id="diwaliPhone"
+            name="phone"
+            type="tel"
+            inputmode="numeric"
+            autocomplete="tel"
+            maxlength="20"
+            placeholder="Enter your registered mobile number"
+            required
+          >
+        </div>
+
+        <button type="submit" class="diwali-submit" id="diwaliSubmit">
+          Verify my order
+        </button>
+      </form>
+
+      <div id="diwaliStatus" class="diwali-status" role="status" aria-live="polite"></div>
+
+      <p class="diwali-note">
+        One eligible Order ID can unlock the experience only once.
+        Terms and campaign eligibility apply.
+      </p>
+
+      <p class="diwali-tagline">Celebrate Diwali. Discover the unexpected.</p>
+
+    </div>
+  </div>
+
+  <script>
+  /*
+   * Success: the Worker verifies the WooCommerce order + registered mobile and returns a random,
+   *          single-use handoff token. The envelope on this page opens, then the customer goes to
+   *          the envelope page with the token in the URL fragment (#token=…), never sent to servers.
+   * Failure: the same "Order not eligible" box, with a message for the Worker's error code.
+   * No static code is shown and no reward is decided here.
+   */
+  (function () {
+    const root = document.getElementById("diwali-entry");
+
+    if (!root || root.dataset.initialized === "true") return;
+    root.dataset.initialized = "true";
+
+    const AUTHORIZE_URL =
+      "https://uss-diwali-auth-2026.822005harsh.workers.dev/api/envelope/authorize";
+
+    const ENVELOPE_PAGE_URL = "https://us-supplements-diwali.pages.dev/";
+
+    const form = root.querySelector("#diwaliVerifyForm");
+    const submit = root.querySelector("#diwaliSubmit");
+    const statusBox = root.querySelector("#diwaliStatus");
+    const particleArea = root.querySelector("#diwaliParticles");
+
+    // Floating festive particles.
+    for (let i = 0; i < 28; i++) {
+      const particle = document.createElement("span");
+      particle.className = "diwali-particle";
+      particle.style.left = Math.random() * 100 + "%";
+      particle.style.animationDuration = (8 + Math.random() * 12) + "s";
+      particle.style.animationDelay = (Math.random() * 12) + "s";
+      particle.style.width = (2 + Math.random() * 3) + "px";
+      particle.style.height = particle.style.width;
+      particleArea.appendChild(particle);
+    }
+
+    // Worker error code -> [heading, message]. Unknown codes fall back to SERVER_ERROR.
+    const MESSAGES = {
+      INVALID_ORDER: ["Order not eligible", "We couldn’t match that Order ID and registered mobile number. Please check both and try again."],
+      INELIGIBLE_ORDER: ["Order not eligible", "Eligible orders were placed on 6 or 7 November 2026 with net product spend strictly above ₹1,500."],
+      INVALID_REQUEST: ["Order not eligible", "Please enter a valid Order ID and your registered mobile number."],
+      AUTH_ALREADY_USED: ["Already opened", "This order’s envelope has already been opened."],
+      CAMPAIGN_NOT_STARTED: ["Not open yet", "The Diwali envelope opens on 9 November 2026. Please come back then."],
+      CAMPAIGN_CLOSED: ["Campaign closed", "The Diwali Mystery Envelope campaign closed at midnight after 9 November 2026. Thank you for celebrating with US Supplements!"],
+      RATE_LIMITED: ["Too many attempts", "Please wait a few minutes and try again."],
+      SERVER_ERROR: ["Something went wrong", "Please try again in a moment."]
+    };
+
+    function showStatus(kind, icon, heading, message) {
+      statusBox.className = "diwali-status " + kind;
+      statusBox.style.display = "block";
+      statusBox.innerHTML = '<div class="status-icon"></div><h2></h2><p></p>';
+      statusBox.querySelector(".status-icon").textContent = icon;
+      statusBox.querySelector("h2").textContent = heading;
+      statusBox.querySelector("p").textContent = message;
+    }
+
+    function showError(code) {
+      const pair = MESSAGES[code] || MESSAGES.SERVER_ERROR;
+      showStatus("error", "✕", pair[0], pair[1]);
+
+      // Keep the form visible so the customer can correct their details.
+      submit.disabled = false;
+      submit.textContent = "Verify again";
+    }
+
+    // The Back button can restore this page from the browser cache mid-redirect; reset it.
+    window.addEventListener("pageshow", function (event) {
+      if (!event.persisted) return;
+      root.classList.remove("is-open");
+      form.style.display = "";
+      statusBox.className = "diwali-status";
+      statusBox.style.display = "none";
+      submit.disabled = false;
+      submit.textContent = "Verify my order";
+    });
+
+    form.addEventListener("submit", async function (event) {
+      event.preventDefault();
+      if (submit.disabled) return;                       // no duplicate submissions
+
+      // Accept #262143 or 262143; require exactly six digits.
+      const rawOrderId = root.querySelector("#diwaliOrder").value.trim();
+      const orderId = rawOrderId.startsWith("#") ? rawOrderId.slice(1).trim() : rawOrderId;
+
+      // Remove spaces, +, hyphens and other formatting from phone.
+      const phone = root.querySelector("#diwaliPhone").value.trim().replace(/[^0-9]/g, "");
+
+      if (!/^[0-9]{6}$/.test(orderId)) {
+        alert("Please enter a valid 6-digit Order ID (Example: #222222).");
+        return;
+      }
+
+      if (phone.length < 10) {
+        alert("Please enter your registered mobile number.");
+        return;
+      }
+
+      submit.disabled = true;
+      submit.innerHTML = '<span class="diwali-loading"></span> Verifying your order...';
+      statusBox.className = "diwali-status";
+      statusBox.style.display = "none";
+
+      const controller = window.AbortController ? new AbortController() : null;
+      const timer = controller ? setTimeout(function () { controller.abort(); }, 15000) : null;
+
+      try {
+        const response = await fetch(AUTHORIZE_URL, {
+          method: "POST",
+          mode: "cors",
+          credentials: "omit",
+          cache: "no-store",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ orderId: orderId, phone: phone }),
+          signal: controller ? controller.signal : undefined
+        });
+
+        let result = null;
+        try { result = await response.json(); } catch (_) { result = null; }
+
+        if (result && result.success === true &&
+            typeof result.handoffToken === "string" && /^[A-Za-z0-9_-]{43}$/.test(result.handoffToken)) {
+          // Open the envelope on this page, then hand over to the envelope experience.
+          form.style.display = "none";
+          root.classList.add("is-open");
+          showStatus("success", "🪔", "Order verified!", "Your envelope is opening. Taking you to your Diwali surprise…");
+          const target = ENVELOPE_PAGE_URL + "#token=" + encodeURIComponent(result.handoffToken);
+          setTimeout(function () { window.location.assign(target); }, 1400);
+          return;                                        // button stays disabled while leaving
+        }
+
+        showError(result && result.error && result.error.code);
+
+      } catch (_) {
+        showStatus("error", "⚠", "Connection error", "We could not connect to our verification service. Please check your connection and try again.");
+        submit.disabled = false;
+        submit.textContent = "Try again";
+      } finally {
+        if (timer) clearTimeout(timer);
+      }
+    });
+  })();
+  </script>
+</div>

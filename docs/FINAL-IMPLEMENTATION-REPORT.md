@@ -18,7 +18,9 @@
 | Google Sheet | The spreadsheet ID referenced in tests is **not visible** to the Google Drive account connected to this session; no Diwali/Redemption files found there. Spreadsheet, sheet name `Redemption Records` and headers **not verified**. | Drive metadata lookup |
 | Production D1 | Operator-reported complete (cleanup, 0001, 0002, postflight). **Not re-queried** in this audit (no production SQL run). | — |
 
-**Consequence:** none of the new flow is live yet. Before 9 November 2026 00:00 IST the Worker and Pages must be deployed from this repository and the WordPress page must be switched to `[usd_diwali_auth]`; otherwise customers on the live page receive a static code and no envelope link.
+**Update 2026-11-04 09:45 UTC:** the owner deployed this repository's `worker.js` to `uss-diwali-auth-2026` (version `1b4d17b2-b034-4f37-8308-45321775e0bf`); non-mutating live checks passed (see checklist). A second Worker `us-diwali-offer`, bound to production D1 with no secrets and not used by Pages/WordPress, was also found; its future is an owner decision.
+
+**Consequence (as of the read-only audit, before the Worker deploy):** none of the new flow is live yet. Before 9 November 2026 00:00 IST the Worker and Pages must be deployed from this repository and the WordPress page must be switched to `[usd_diwali_auth]`; otherwise customers on the live page receive a static code and no envelope link.
 
 ### Fixes made locally on 2026-11-04 (not deployed)
 
