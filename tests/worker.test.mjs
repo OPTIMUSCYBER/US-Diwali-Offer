@@ -152,7 +152,7 @@ test('authorize: invalid WooCommerce order status is refused even with matching 
   assert.equal(r.json.error.code, 'INELIGIBLE_ORDER');
 });
 test('authorize: processing, completed, shipped and partially shipped orders are accepted; other statuses are refused', async () => {
-  for (const status of ['processing', 'completed', 'shipped', 'partially-shipped', 'wc-shipped', 'Partially Shipped']) {
+  for (const status of ['processing', 'completed', 'shipped', 'partially-shipped', 'wc-shipped', 'Partially Shipped', 'partial-shipped', 'wc-partial-shipped']) {
     const env = freshEnv();
     orders[1001].status = status;
     const r = await authorize(env);

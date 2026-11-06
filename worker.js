@@ -43,7 +43,7 @@ const CONFIG = {
   ELIGIBLE_FROM: '2026-11-06',                       // IST dates, inclusive
   ELIGIBLE_TO: '2026-11-08',
   MIN_PRODUCT_VALUE_EXCLUSIVE_PAISE: 150000,         // strictly above ₹1,500
-  ELIGIBLE_STATUSES: ['processing', 'completed', 'shipped', 'partially-shipped'], // WooCommerce status slugs
+  ELIGIBLE_STATUSES: ['processing', 'completed', 'shipped', 'partially-shipped', 'partial-shipped'], // WooCommerce status slugs
   HANDOFF_TTL_SECONDS: 10 * 60,                     // link from the WP page must be used within 10 minutes
   SESSION_TTL_SECONDS: 20 * 60,                     // opening session after a successful verify
   MAX_HANDOFFS_PER_ORDER_PER_HOUR: 10,              // brute-force / abuse cap per order
