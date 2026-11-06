@@ -151,6 +151,21 @@ test('authorize: invalid WooCommerce order status is refused even with matching 
   assert.equal(r.status, 403);
   assert.equal(r.json.error.code, 'INELIGIBLE_ORDER');
 });
+test('authorize: processing, completed, shipped and partially shipped orders are accepted; other statuses are refused', async () => {
+  for (const status of ['processing', 'completed', 'shipped', 'partially-shipped', 'wc-shipped', 'Partially Shipped']) {
+    const env = freshEnv();
+    orders[1001].status = status;
+    const r = await authorize(env);
+    assert.equal(r.status, 200, status);
+  }
+  for (const status of ['pending', 'on-hold', 'cancelled', 'refunded', 'failed', 'draft', 'shipped-back', '']) {
+    const env = freshEnv();
+    orders[1001].status = status;
+    const r = await authorize(env);
+    assert.equal(r.status, 403, status);
+    assert.equal(r.json.error.code, 'INELIGIBLE_ORDER');
+  }
+});
 test('authorize: guest order with valid WooCommerce phone does not require billing email', async () => {
   const env = freshEnv();
   orders[1001].customer_id = 0;
@@ -246,7 +261,9 @@ test('eligibility: discounted product line totals exclude shipping and tax, thre
     ['5 November rejected', { date_created_gmt: '2026-11-05T08:00:00', line_items: [{ id: 1, total: '2000.00' }] }, false],
     ['6 November eligible', { date_created_gmt: '2026-11-06T08:00:00', line_items: [{ id: 1, total: '2000.00' }] }, true],
     ['7 November eligible', { date_created_gmt: '2026-11-07T08:00:00', line_items: [{ id: 1, total: '2000.00' }] }, true],
-    ['8 November rejected', { date_created_gmt: '2026-11-08T08:00:00', line_items: [{ id: 1, total: '2000.00' }] }, false],
+    ['8 November eligible', { date_created_gmt: '2026-11-08T08:00:00', line_items: [{ id: 1, total: '2000.00' }] }, true],
+    ['8 November 23:59:59 IST eligible', { date_created_gmt: '2026-11-08T18:29:59', line_items: [{ id: 1, total: '2000.00' }] }, true],
+    ['9 November 00:00 IST rejected', { date_created_gmt: '2026-11-08T18:30:00', line_items: [{ id: 1, total: '2000.00' }] }, false],
     ['9 November rejected', { date_created_gmt: '2026-11-09T08:00:00', line_items: [{ id: 1, total: '2000.00' }] }, false],
     ['10 November rejected', { date_created_gmt: '2026-11-10T08:00:00', line_items: [{ id: 1, total: '2000.00' }] }, false],
     ['refund leaves ₹1,500 rejected', { line_items: [{ id: 1, total: '1600.00' }], refunds: [{ id: 7, total: '-100.00' }], refund_details: [{ id: 7, line_items: [{ id: 1, total: '-100.00' }], shipping_lines: [] }] }, false],

@@ -4,10 +4,10 @@ The Worker is the sole authority for eligibility. WordPress and Pages display Wo
 
 | Check | Rule |
 |---|---|
-| WooCommerce order date | 6 or 7 November 2026, using the Asia/Kolkata calendar date |
+| WooCommerce order date | 6, 7 or 8 November 2026, using the Asia/Kolkata calendar date |
 | Net product value | Strictly greater than ₹1,500 (150,000 paise) |
 | Currency | Exactly `INR` |
-| Status | `processing` or `completed` |
+| Status | `processing`, `completed`, `shipped` or `partially-shipped` (WooCommerce status slug; `wc-` prefix, case, spaces and underscores are normalized) |
 | Product line value | Discounted `line_items[].total`, excluding tax |
 | Product refunds | Subtract detailed refund `line_items[].total`, excluding tax |
 | Shipping and shipping refunds | Excluded |

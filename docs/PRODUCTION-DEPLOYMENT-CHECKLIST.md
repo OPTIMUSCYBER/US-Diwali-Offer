@@ -43,7 +43,7 @@ The production database inspection reported `_cf_KV` and `redemptions(order_id T
 - WordPress remains the only customer authentication page: Order ID + registered mobile.
 - Worker verifies the order against WooCommerce, creates a short-lived one-time handoff, and Pages silently verifies the token after URL-fragment scrubbing.
 - One allocation per eligible **Order ID**. A different eligible order belonging to the same customer is independent.
-- Campaign order dates are 6–7 November 2026 IST; product value after product refunds is strictly above ₹1,500; INR and `processing`/`completed` only. Tax, shipping, and shipping refunds are excluded.
+- Campaign order dates are 6–8 November 2026 IST; product value after product refunds is strictly above ₹1,500; INR and `processing`/`completed`/`shipped`/`partially-shipped` only. Tax, shipping, and shipping refunds are excluded.
 - Opening is 9 November 2026 00:00 IST inclusive; closing is 10 November 2026 00:00 IST exclusive. No new allocation after close; a saved reward can replay.
 - Physical inventory is exactly 216 gifts. Better Luck is the unlimited fallback.
 

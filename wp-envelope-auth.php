@@ -88,7 +88,7 @@ add_shortcode(
 	var CONF = <?php echo $conf; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- encoded with JSON_HEX_* flags ?>;
 	var MSG = {
 		INVALID_ORDER:        'We couldn’t match that Order ID and registered mobile number. Please check both and try again.',
-		INELIGIBLE_ORDER:     'This order isn’t part of the Diwali draw. Eligible orders were placed on 6 or 7 November 2026 with net product spend strictly above ₹1,500.',
+		INELIGIBLE_ORDER:     'This order isn’t part of the Diwali draw. Eligible orders were placed between 6 and 8 November 2026 with net product spend strictly above ₹1,500.',
 		CAMPAIGN_NOT_STARTED: 'The envelope opens on 9 November 2026. Please come back then.',
 		CAMPAIGN_CLOSED:      'The Diwali Mystery Envelope campaign closed at midnight after 9 November 2026. Thank you for celebrating with US Supplements!',
 		RATE_LIMITED:         'Too many attempts. Please wait a few minutes and try again.',

@@ -41,9 +41,9 @@ const CONFIG = {
   LAUNCH_AT: '2026-11-09T00:00:00+05:30',
   CLOSES_AT: '2026-11-10T00:00:00+05:30',
   ELIGIBLE_FROM: '2026-11-06',                       // IST dates, inclusive
-  ELIGIBLE_TO: '2026-11-07',
+  ELIGIBLE_TO: '2026-11-08',
   MIN_PRODUCT_VALUE_EXCLUSIVE_PAISE: 150000,         // strictly above ₹1,500
-  ELIGIBLE_STATUSES: ['processing', 'completed'],
+  ELIGIBLE_STATUSES: ['processing', 'completed', 'shipped', 'partially-shipped'], // WooCommerce status slugs
   HANDOFF_TTL_SECONDS: 10 * 60,                     // link from the WP page must be used within 10 minutes
   SESSION_TTL_SECONDS: 20 * 60,                     // opening session after a successful verify
   MAX_HANDOFFS_PER_ORDER_PER_HOUR: 10,              // brute-force / abuse cap per order
@@ -608,8 +608,13 @@ function decimalPaise(value) {
   return m[1] ? -paise : paise;
 }
 
+// 'wc-Partially Shipped' / 'partially_shipped' -> 'partially-shipped'
+function statusSlug(status) {
+  return String(status || '').trim().toLowerCase().replace(/^wc-/, '').replace(/[\s_]+/g, '-');
+}
+
 function isEligible(order) {
-  if (!CONFIG.ELIGIBLE_STATUSES.includes(order.status)) return false;
+  if (!CONFIG.ELIGIBLE_STATUSES.includes(statusSlug(order.status))) return false;
   if (order.currency !== 'INR') return false;
   if (!order.date_created_gmt) return false;
   let day;
